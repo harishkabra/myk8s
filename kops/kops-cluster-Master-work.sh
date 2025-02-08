@@ -9,7 +9,7 @@ export NODE_SIZE="t3.medium"
 export CONTROL_PLANE_SIZE="t3.medium"
 export CONTROL_PLANE_VOL=20
 export NODE_VOL=20
-export PARENT_DNS_ZONE="hkdevops.store"
+export PARENT_DNS_ZONE="hkdevops.store"  # FIXED: Correct parent hosted zone
 export SSH_KEY_PATH="$HOME/.ssh/kops-key.pub"
 
 echo "===== 🚀 Updating System Packages ====="
