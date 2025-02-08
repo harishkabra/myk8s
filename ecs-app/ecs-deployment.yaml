@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: efficient-cloud-solution
-        image: efficient-cloud-solution
+        image: efficient-cloud-solution:v1.0.0
         ports:
         - containerPort: 5000
