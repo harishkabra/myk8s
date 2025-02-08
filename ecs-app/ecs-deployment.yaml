@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: efficient-cloud-solution
-        image: hkabra/efficient-cloud-solution:v1.0.0
+        image: hkabra/efficient-cloud-solution:v1.0.1
         ports:
         - containerPort: 5000

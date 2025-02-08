@@ -1,0 +1,135 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: null
+  name: hkdevops.store
+spec:
+  api:
+    dns: {}
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://kops-hkabra-storage/hkdevops.store
+  dnsZone: hkdevops.store
+  etcdClusters:
+  - cpuRequest: 200m
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: control-plane-us-east-1a
+      name: a
+    manager:
+      backupRetentionDays: 90
+    memoryRequest: 100Mi
+    name: main
+  - cpuRequest: 100m
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: control-plane-us-east-1a
+      name: a
+    manager:
+      backupRetentionDays: 90
+    memoryRequest: 100Mi
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubeProxy:
+    enabled: false
+  kubelet:
+    anonymousAuth: false
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  - ::/0
+  kubernetesVersion: 1.31.5
+  masterPublicName: api.hkdevops.store
+  networkCIDR: 172.20.0.0/16
+  networking:
+    cilium:
+      enableNodePort: true
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  - ::/0
+  subnets:
+  - cidr: 172.20.0.0/17
+    name: us-east-1a
+    type: Public
+    zone: us-east-1a
+  - cidr: 172.20.128.0/17
+    name: us-east-1b
+    type: Public
+    zone: us-east-1b
+  topology:
+    dns:
+      type: Public
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: hkdevops.store
+  name: control-plane-us-east-1a
+spec:
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20250112
+  machineType: t3.medium
+  maxSize: 1
+  minSize: 1
+  role: Master
+  rootVolumeSize: 10
+  subnets:
+  - us-east-1a
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: hkdevops.store
+  name: nodes-us-east-1a
+spec:
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20250112
+  machineType: t3.medium
+  maxSize: 1
+  minSize: 1
+  role: Node
+  rootVolumeSize: 10
+  subnets:
+  - us-east-1a
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: hkdevops.store
+  name: nodes-us-east-1b
+spec:
+  image: 099720109477/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20250112
+  machineType: t3.medium
+  maxSize: 1
+  minSize: 1
+  role: Node
+  rootVolumeSize: 10
+  subnets:
+  - us-east-1b
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: SSHCredential
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: hkdevops.store
+  name: admin
+spec:
+  publicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCufObr3ekZHPAvf0C2AStWdieYWD6I4xwl7dnVlCKAgKzIOOj9rcnX/0duEx0LYeDTHOJvEFWgf63kBTVIjnzr8OYQzNTIJ6IcQTpla8tHwB9oB5Y8JvQimY9yJk6anLewRcThX/s1EWP0+9Z1+nEfPQNvSJ+rymQS+3EXrYUgjrXUgATwi0fsD3PewNu1393j64hrqkslYGFmqHZDKXKbgKiR3hBlaIPLzFVvTW2UAoJwJ/mrd+rUaJI2bO+iz1vjkKaTpGWUV9kKmF2xJapF+mCVOXLxDO6Zb5fvtZ7IjL8R6vv+gXYvJDS28pt+8SlHRWTigMeIcrp2fInK5AN/mOVFVwGV6vTKzgmrNhGQshP86fXRCgRfSbvUQBZm8/ples7O/XopsqdBPSKiecQaljnaY6qrYehhOz6vkpUoKEBosDb98VDGGpHgPO5Nh4uyw4IWt7CFvKIPYcMeYFC0+HFJiEYn9EI8cMClhFK5gjgB5Akcn+3Frt4Xe8U1iM5Wi5LaD21ra3k0aYt0OSBGTOLY1GKFcC402xMIeiNMpzSHOy0f/14jm0aDZcHgeHoTxHBF69JxrAl5MBqiW1W6xtFiucN3XtrU0AQmKhg7xuq53THUX5LNfn3JFQQYBSoIgIo28fu1GGnwsCCTVsDrYErI4ppMdVrgiGvjWfRSMw==
+    ubuntu@ip-172-31-90-48

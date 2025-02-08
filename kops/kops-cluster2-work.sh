@@ -11,7 +11,7 @@ Download Kops and Kubectl to /usr/local/bin and change permissions.
 # Download Kubectl and give permissions.
 # Edit .bashrc and add all the environment variables
 
-export NAME=k8sdemo.hkdevops.store
+export NAME=hkdevops.store
 export KOPS_STATE_STORE=s3://kops-hkabra-storage
 export AWS_REGION=us-east-1
 export CLUSTER_NAME=k8sdemo.hkdevops.store
@@ -24,13 +24,13 @@ source .bashrc
 # Create a Cluster using Kops and generate a cluster file.
 # Save it carefully and do necessary changes.
 
-kops create cluster --name=k8sdemo.hkdevops.store \
+kops create cluster --name=hkdevops.store \
   --state=s3://kops-hkabra-storage \
   --zones=us-east-1a,us-east-1b \
   --node-count=2 --control-plane-count=1 --node-size=t3.medium \
   --control-plane-size=t3.medium --control-plane-zones=us-east-1a \
   --control-plane-volume-size=10 --node-volume-size=10 \
-  --ssh-public-key ~/.ssh/id_ed25519.pub \
+  --ssh-public-key ~/.ssh/kops-key.pub\
   --dns-zone=hkdevops.store --dry-run --output yaml
 
 
@@ -39,3 +39,22 @@ kops create cluster --name=k8sdemo.hkdevops.store \
   #kops update cluster --name k8sdemo.hkdevops.store --yes --admin
 
 
+  kops create -f cluster.yml
+
+  kops update cluster --name hkdevops.store --yes --admin
+
+  kops validate cluster --wait 10m
+
+  kops delete -f cluster.yml --yes
+  
+  kubectl cluster-info
+  
+  kubectl get ns
+
+  kubectl get pods -n kube-system -o wide | grep -i api
+  kubectl get pods -n kube-system -o wide | grep -i etcd
+  kubectl get pods -n kube-system -o wide | grep -i control
+  kubectl get pods -n kube-system -o wide | grep -i scheduler
+
+
+  kubectl run testpod1 --image nginx:latest --dry-run -o yaml
