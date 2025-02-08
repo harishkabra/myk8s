@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gym-app-deployment
+  labels:
+    app: gym-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gym-app
+  template:
+    metadata:
+      labels:
+        app: gym-app
+    spec:
+      containers:
+      - name: gym-app-pod
+        image: hkabra/gymapp:latest
+        ports:
+        - containerPort: 80
