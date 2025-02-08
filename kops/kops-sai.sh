@@ -27,7 +27,7 @@ source .bashrc
 kops create cluster --name=hkdevops.store \
   --state=s3://kops-hkabra-storage \
   --zones=us-east-1a,us-east-1b \
-  --node-count=2 --control-plane-count=1 --node-size=t3.medium \
+  --node-count=1 --control-plane-count=1 --node-size=t3.medium \
   --control-plane-size=t3.medium --control-plane-zones=us-east-1a \
   --control-plane-volume-size=10 --node-volume-size=10 \
   --ssh-public-key ~/.ssh/kops-key.pub\
@@ -58,3 +58,16 @@ kops create cluster --name=hkdevops.store \
 
 
   kubectl run testpod1 --image nginx:latest --dry-run -o yaml
+
+  ## update cluster 
+
+  kops get ig
+  kops delete ig nodes-us-east-1b --yes
+   kops update cluster --yes
+
+
+   # kubectl api-resources --namespaced=true
+
+   echo ' <commond> ' | kubectl apply -f 
+
+   kubens look into it
