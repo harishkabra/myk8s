@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: gymapp-deployment
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
       app: gymapp
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: gymapp-container
-          image: hkabra/gymapp:v1.0.0
+          image: hkabra/gymapp
           ports:
             - containerPort: 80
