@@ -5,8 +5,10 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: "internet-facing"
     alb.ingress.kubernetes.io/ssl-cert: "arn:aws:acm:us-east-1:820242924248:certificate/979e8d24-865c-4091-85ae-7f6794c85c25"
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/group.name: "gymapp-ingress-group"  # ✅ Required for ALB management
+    alb.ingress.kubernetes.io/target-type: "instance"  # ✅ Change to "ip" if using AWS VPC CNI
 spec:
   ingressClassName: "alb"
   rules:
