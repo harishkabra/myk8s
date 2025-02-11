@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gymapp
+  name: gymapp-deployment
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+  replicas: 6
+  selector:
+    matchLabels:
+      app: gymapp
+  template:
+    metadata:
+      labels:
+        app: gymapp
+    spec:
+      containers:
+        - image: hkabra/gymapp
+          name: gymapp

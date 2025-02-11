@@ -1,7 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: gymapp-deployment
   name: gymapp-deployment
+  annotations:
+    info: "hkabra Deployment"
+    email: "hkabra1979@gmail.com"
+    owner: "hkabra"
 spec:
   replicas: 3
   selector:

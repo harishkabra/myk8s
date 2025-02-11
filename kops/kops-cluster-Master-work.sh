@@ -7,8 +7,8 @@ export REGION="us-east-1"
 export NODE_COUNT=2
 export NODE_SIZE="t3.medium"
 export CONTROL_PLANE_SIZE="t3.medium"
-export CONTROL_PLANE_VOL=20
-export NODE_VOL=20
+export CONTROL_PLANE_VOL=10
+export NODE_VOL=10
 export PARENT_DNS_ZONE="hkdevops.store"  # FIXED: Correct parent hosted zone
 export SSH_KEY_PATH="$HOME/.ssh/kops-key.pub"
 
